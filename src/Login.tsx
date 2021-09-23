@@ -6,7 +6,7 @@ interface Props {
 
 function Login({}: Props): ReactElement {
     return (
-        <div>
+        <div >
             Login
         </div>
     )

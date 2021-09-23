@@ -4,14 +4,14 @@ import {RiGitRepositoryFill} from 'react-icons/ri'
 import {BsPeopleFill} from 'react-icons/bs'
 import {FiUserPlus} from 'react-icons/fi'
 import {GoGist} from 'react-icons/go'
-import data from './mockdata/mockUser'
+// import data from './mockdata/mockUser'
+import {UseAppSelector} from './Hooks'
 
 
-interface Props {
-    
-}
 
-export default function Info({}: Props): ReactElement {
+
+export default function Info(): ReactElement {
+    const data=UseAppSelector(state=>state.user)
     return (
         <section className="mx-auto p-3 grid grid-cols-4 justify-center gap-6 w-full md:w-8/12 lg:w-8/12">
             <article className="info-box"> 
