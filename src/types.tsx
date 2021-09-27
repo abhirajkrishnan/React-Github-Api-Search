@@ -1,34 +1,61 @@
-export interface UserObject {
-    login?:               string;
-    id?:                  number;
-    node_id?:             string;
-    avatar_url?:          string;
-    gravatar_id?:         string;
-    url?:                 string;
-    html_url?:            string;
-    followers_url?:       string;
-    following_url?:       string;
-    gists_url?:           string;
-    starred_url?:         string;
-    subscriptions_url?:   string;
-    organizations_url?:   string;
-    repos_url?:           string;
-    events_url?:          string;
-    received_events_url?: string;
-    type?:                string;
-    site_admin?:          boolean;
-    name?:                string;
-    company?:             string;
-    blog?:                string;
-    location?:            string;
-    email?:               null;
-    hireable?:            boolean;
-    bio?:                 string;
-    twitter_username?:    null;
-    public_repos?:        number;
-    public_gists?:        number;
-    followers?:           number;
-    following?:           number;
-    created_at?:          Date;
-    updated_at?:          Date;
+export type UserObject=UserData;
+
+interface UserData {
+    login?:               string |null|undefined; 
+    id?:                  number |null|undefined;
+    node_id?:             string |null|undefined;
+    avatar_url?:          string |undefined;
+    gravatar_id?:         string |null|undefined;
+    url?:                 string |null|undefined;
+    html_url?:            string |undefined;
+    followers_url?:       string |null|undefined;
+    following_url?:       string |null|undefined;
+    gists_url?:           string |null|undefined;
+    starred_url?:         string |null|undefined;
+
+    subscriptions_url?:   string |null|undefined;
+    organizations_url?:   string |null|undefined;
+    repos_url?:           string |null|undefined;
+    events_url?:          string |null|undefined;
+    received_events_url?: string |null|undefined;
+    type?:                string |null|undefined;
+    site_admin?:          boolean |null|undefined;
+    name?:                string |null|undefined;
+    company?:             string |null|undefined;
+
+    blog?:                string |null|undefined;
+    location?: string |null|undefined;
+    email?: null| string;
+    hireable?: boolean |null|undefined;
+    bio?: string |null|undefined;
+    twitter_username?: null | string;
+    public_repos?: number |null|undefined;
+    public_gists?: number |null|undefined;
+    followers?: number |null|undefined;
+    following?: number |null|undefined;
+    created_at?: string |null|undefined;
+    updated_at?: string |null|undefined;
+}
+
+export type FollowersType=followers[];
+
+ interface followers{
+    login: string |null|undefined;
+    id: number|null|undefined;
+    node_id: string|null|undefined;
+    avatar_url: string|undefined;
+    gravatar_id: string|null|undefined;
+    url: string|null|undefined;
+    html_url: string|undefined;
+    followers_url: string|null|undefined;
+    following_url: string |null|undefined;
+    gists_url: string |null|undefined;
+    starred_url: string |null|undefined;
+    subscriptions_url: string |null|undefined;
+    organizations_url: string |null|undefined;
+    repos_url: string |null|undefined;
+    events_url: string |null|undefined;
+    received_events_url: string |null|undefined;
+    type: string |null|undefined;
+    site_admin: boolean |null|undefined;
 }

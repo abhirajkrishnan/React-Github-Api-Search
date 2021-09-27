@@ -1,4 +1,5 @@
-export default {
+var user;
+export default user={
   "login": "wesbos",
   "id": 176013,
   "node_id": "MDQ6VXNlcjE3NjAxMw==",

@@ -1,14 +1,17 @@
 import React, { ReactElement } from 'react'
-import data from './mockdata/mockUser'
 import {GoLink} from 'react-icons/go'
 import {FaTwitter,FaLinkedin} from 'react-icons/fa'
 import {CgOrganisation} from 'react-icons/cg'
+import {UseAppSelector} from './Hooks'
 
 interface Props {
     
 }
 
 function UserCard({}: Props): ReactElement {
+
+    const data=UseAppSelector(state=>state.user)
+
     return (
         <article className="bg-white col-span-2 p-5 flex flex-col shadow-xl rounded-lg">
             <h3 className="flex justify-center text-sm lg:text-2xl font-bold">User</h3>
@@ -16,10 +19,10 @@ function UserCard({}: Props): ReactElement {
                 <img src={data.avatar_url} alt="" className="w-12 h-12 lg:w-20 lg:h-20 rounded-full object-cover"/>
                 <div className="pl-5  col-span-3 ">
                     <h2 className="block text-lg font-medium lg:font-semibold">{data.name}</h2>
-                    <p className="block">@{data.twitter_username}</p>
+                   {data.twitter_username&& <p className="block">@{data.twitter_username}</p>}
                 </div>
                 <button className="flex items-center justify-center shadow border-blue-500 border-2 rounded-full px-2 lg:px-4 lg:py-2 text-blue-500 hover:bg-blue-500 hover:text-white">
-                    <a href={data.html_url}>Follow </a>
+                    <a href={data.html_url} target="_blank">Follow </a>
                 </button>
             </header>
             <p className="font-semibold text-base lg:text-lg">{data.bio}</p>

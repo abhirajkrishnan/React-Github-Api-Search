@@ -14,7 +14,7 @@ function App() {
       <Home/>
       </Route>
 
-      <Route path="/dashboard">
+      <Route path="/dashboard"  exact={true}>
       <DashBoard />
       </Route>
 
