@@ -1,19 +1,20 @@
 import React, { ReactElement,useState,useEffect,Dispatch,SetStateAction,useCallback} from 'react'
 import {FaSearchengin} from 'react-icons/fa'
-import {useGetgithubUserByNameQuery , useGetFollowersQuery,useRequestleftQuery } from './features/fetchuserdata'
+import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery  } from './features/fetchuserdata'
 import {loading} from './features/loading'
 import {currentuser} from './features/data'
-import mockFollower from './mockdata/mockFollower'
+import mockRepos from './mockdata/mockRepos'
 import { UseAppDispatch} from './Hooks'
 import {UseAppSelector} from './Hooks'
 import {Searchuser} from './features/searchuser'
 import { followers } from './features/followersdata'
 import {FollowersType} from './types'
 import {requestleft} from './features/Requests'
+import {repos} from './features/repos'
 
 interface Props {
     searchUserfn:Dispatch<SetStateAction<string>>;
-    fetchagain:() => void;
+    // fetchagain:() => void;
     isloading:boolean;
     // followersdata:FollowersType;
 }
@@ -28,29 +29,33 @@ function Search(): ReactElement {
     const [searchUser,setSearchuser]=useState<string>(getLocalStorage())
     const {data={},isFetching,refetch,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
     const {data:Followers=[],isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
-
+    const {data:reposfetched= [],isFetching:isReposFetching}=useReposQuery(searchUser)
+    
     useEffect(() => {
-     if(data && Followers && !isFollowerFetching && !isFetching ) {
+     if(data && Followers && reposfetched && !isFollowerFetching &&  !isReposFetching && !isFetching  ) {
            if(isError) dispatch(loading(false))
            else {
+            dispatch(Searchuser(searchUser))
             dispatch(currentuser(data))
             dispatch(followers(Followers))
+            dispatch(repos(reposfetched))
             dispatch(loading(isFetching))
+            console.log("repos ",reposfetched,Followers)
            }
             }
-    }, [data,isFollowerFetching,Followers,isFetching,isError,dispatch])
+    }, [data,isFollowerFetching,Followers,isFetching,isError,dispatch,isReposFetching,reposfetched])
         
     return (
         <>
        {isError && <div className="mx-auto pl-3 items-center justify-center gap-2 w-full md:w-8/12 lg:w-8/12 text-red-500 text-sm italic font-semibold">
            User <span className="font-extrabold text-lg mx-1"> { searchUser} </span> Not Found!!</div>} 
-         <SearchBox searchUserfn={setSearchuser} fetchagain={refetch} isloading={isLoading} />
+         <SearchBox searchUserfn={setSearchuser} isloading={isLoading} />
         </> 
         )
 }
 
 
-function SearchBox({searchUserfn,fetchagain,isloading}: Props): ReactElement {
+function SearchBox({searchUserfn,isloading}: Props): ReactElement {
     const dispatch= UseAppDispatch()
     const [username,setUsername]=useState<string>(getLocalStorage())
 
@@ -78,8 +83,8 @@ function SearchBox({searchUserfn,fetchagain,isloading}: Props): ReactElement {
         e.preventDefault();
         searchUserfn(username);
         localStorage.setItem("username",username);
-        dispatch(Searchuser(username))
-        fetchagain()
+        // dispatch(Searchuser(username))
+        // fetchagain()
         dispatch(loading(!isloading))
         
     }
