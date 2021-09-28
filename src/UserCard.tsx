@@ -27,9 +27,9 @@ function UserCard({}: Props): ReactElement {
             </header>
             <p className="font-semibold text-base lg:text-lg">{data.bio}</p>
             <ul className="flex flex-col justify-center pt-3">
-                {data.blog&&<li><a href={`https://${data.blog}`}><GoLink className="inline"/><span className="pl-3">{data.blog}</span></a></li>}
+                {data.blog&&<li><a href={`https://${data.blog}`}><GoLink className="inline"/><span className="pl-3 text-blue-800 hover:underline">{data.blog}</span></a></li>}
 
-                {data.twitter_username&&<li><a href={`https://twitter.com/${data.twitter_username}`}><FaTwitter className="inline"/><span className="pl-3">{data.twitter_username}</span></a></li>}
+                {data.twitter_username&&<li><a href={`https://twitter.com/${data.twitter_username}`}><FaTwitter className="inline text-blue-500"/><span className="pl-3 text-blue-900 hover:underline">{data.twitter_username}</span></a></li>}
 
                 {data.company&&<li><CgOrganisation className="inline"/><span className="pl-3">{data.company}</span></li>}
             </ul>

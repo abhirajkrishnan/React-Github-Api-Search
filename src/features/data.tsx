@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import data from '../mockdata/mockUser'
 import { PayloadAction } from '@reduxjs/toolkit';
 import { UserObject } from '../types';
-const initialState:UserObject={};
+const initialState:UserObject=data;
 
 
 const userSlice=createSlice({

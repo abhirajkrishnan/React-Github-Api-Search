@@ -4,7 +4,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import {FollowersType} from '../types'
 
 
-const initialState:FollowersType=[];
+const initialState:FollowersType=data;
 
 
 const followerSlice=createSlice({

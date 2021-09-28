@@ -1,6 +1,6 @@
-import React, { ReactElement,useState,useEffect,useCallback,Dispatch,SetStateAction} from 'react'
+import React, { ReactElement,useState,useEffect,Dispatch,SetStateAction,useCallback} from 'react'
 import {FaSearchengin} from 'react-icons/fa'
-import {useGetgithubUserByNameQuery,useGetFollowersQuery} from './features/fetchuserdata'
+import {useGetgithubUserByNameQuery , useGetFollowersQuery,useRequestleftQuery } from './features/fetchuserdata'
 import {loading} from './features/loading'
 import {currentuser} from './features/data'
 import mockFollower from './mockdata/mockFollower'
@@ -9,6 +9,7 @@ import {UseAppSelector} from './Hooks'
 import {Searchuser} from './features/searchuser'
 import { followers } from './features/followersdata'
 import {FollowersType} from './types'
+import {requestleft} from './features/Requests'
 
 interface Props {
     searchUserfn:Dispatch<SetStateAction<string>>;
@@ -16,15 +17,17 @@ interface Props {
     isloading:boolean;
     // followersdata:FollowersType;
 }
-
+function getLocalStorage(){
+    const username:string=window.localStorage.getItem('username') || "wesbos";
+    return username;
+}
 
 function Search(): ReactElement {
-    const loader=UseAppSelector(state=>state.loader)
+    // const loader=UseAppSelector(state=>state.loader)
     const dispatch= UseAppDispatch()
-    const [searchUser,setSearchuser]=useState<string>("hnasr")
+    const [searchUser,setSearchuser]=useState<string>(getLocalStorage())
     const {data={},isFetching,refetch,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
     const {data:Followers=[],isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
-    // console.log(isError)
 
     useEffect(() => {
      if(data && Followers && !isFollowerFetching && !isFetching ) {
@@ -35,7 +38,7 @@ function Search(): ReactElement {
             dispatch(loading(isFetching))
            }
             }
-    }, [data,isFollowerFetching,Followers,isFetching,isError])
+    }, [data,isFollowerFetching,Followers,isFetching,isError,dispatch])
         
     return (
         <>
@@ -49,12 +52,32 @@ function Search(): ReactElement {
 
 function SearchBox({searchUserfn,fetchagain,isloading}: Props): ReactElement {
     const dispatch= UseAppDispatch()
-    const [username,setUsername]=useState<string>("")
-    
+    const [username,setUsername]=useState<string>(getLocalStorage())
+
+    // const {data:requests={rate:{remaining:60}},isFetching}=useRequestleftQuery(40)
+    // console.log(requests)
+    // const left=requests.rate.remaining ;
+    const RequestLeft=UseAppSelector(state=>state.Requestleft)
+
+    useEffect(
+         () => {
+         async function fetchrequestleft() {
+                try {
+                    const response=await fetch("https://api.github.com/rate_limit");
+                    const Requestleft=await response.json()
+                    dispatch(requestleft(Requestleft.rate.remaining))
+                } catch (error) {
+                    console.log(error)
+                    dispatch(requestleft(RequestLeft))  
+                }
+         }
+         fetchrequestleft();
+    }, [isloading,dispatch])
     
     function handlesubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         searchUserfn(username);
+        localStorage.setItem("username",username);
         dispatch(Searchuser(username))
         fetchagain()
         dispatch(loading(!isloading))
@@ -76,15 +99,14 @@ function SearchBox({searchUserfn,fetchagain,isloading}: Props): ReactElement {
              </span>
              
            <input className="w-full rounded p-2" type="text" placeholder="Enter Github User Name" value={username} onChange={handleSearchName}/>
-            <button type="submit" className="bg-blue-400 hover:bg-blue-700 rounded text-white p-1 pl-4 pr-4" >
+            <button type="submit" className={`bg-blue-400 hover:bg-blue-700 rounded text-white p-1 pl-4 pr-4 ${!RequestLeft?"hidden":"block"}`} >
                 <p className="font-semibold text-base ">Search</p>
             </button>
-           
+           {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded!!</p>}
         </form>
-        <h3 className=" text-xl lg:text-2xl items-center justify-items-start align-middle text-gray-500 font-mono font-semibold">Requests : 50 /60</h3>
+        <h3 className=" text-xl lg:text-2xl items-center justify-items-start align-middle text-gray-500 font-mono font-semibold">Requests : {RequestLeft} /60</h3>
         </section>
     )
 }
-
 
 export default Search

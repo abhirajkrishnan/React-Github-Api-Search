@@ -7,13 +7,14 @@ import UserCard from './UserCard'
 import FollowersCard from './FollowersCard'
 import Loading from './Loading';
 import {UseAppSelector} from './Hooks'
+import Language from './Language';
 
 function DashBoard() {
   
   const loading=UseAppSelector(state=>state.loader)
 //  console.log(loading)
   return (
-    <main className=" h-screen w-screen bg-gray-200">
+    <main className=" h-full w-screen bg-gray-200">
       <Nav/> 
      
         <Search/>
@@ -23,6 +24,10 @@ function DashBoard() {
         <section className="mx-auto p-3 grid grid-cols-2 lg:grid-cols-4 justify-center gap-6 w-full md:w-8/12 lg:w-8/12">
           <UserCard/>
           <FollowersCard/>
+        </section>
+        <section className="mx-auto p-3 grid grid-cols-2 lg:grid-cols-4 justify-center gap-3 w-full md:w-8/12 lg:w-8/12">
+          <Language/>
+          {/* <FollowersCard/> */}
         </section>
         </div>}
 

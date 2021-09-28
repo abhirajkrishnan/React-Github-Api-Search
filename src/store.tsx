@@ -4,6 +4,8 @@ import { githubSearchApi } from './features/fetchuserdata';
 import loading from './features/loading'
 import searchuser from './features/searchuser';
 import followers from './features/followersdata';
+import Requestleft from './features/Requests';
+
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +13,7 @@ export const store = configureStore({
     followers:followers,
     loader:loading,
     searchuser:searchuser,
+    Requestleft,
     [githubSearchApi.reducerPath]:githubSearchApi.reducer
   },
   middleware:(getDefaultMiddleware)=>{
