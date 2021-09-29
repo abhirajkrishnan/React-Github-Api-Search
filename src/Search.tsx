@@ -16,7 +16,7 @@ interface Props {
     searchUserfn:Dispatch<SetStateAction<string>>;
     // fetchagain:() => void;
     isloading:boolean;
-    // followersdata:FollowersType;
+    currentSearchUser:string;
 }
 function getLocalStorage(){
     const username:string=window.localStorage.getItem('username') || "wesbos";
@@ -30,63 +30,73 @@ function Search(): ReactElement {
     const {data={},isFetching,refetch,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
     const {data:Followers=[],isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
     const {data:reposfetched= [],isFetching:isReposFetching}=useReposQuery(searchUser)
-    
+      
+
+    console.log("rendered")
+    const setloader=isFollowerFetching && isReposFetching && isFetching;
     useEffect(() => {
      if(data && Followers && reposfetched && !isFollowerFetching &&  !isReposFetching && !isFetching  ) {
            if(isError) dispatch(loading(false))
            else {
-            dispatch(Searchuser(searchUser))
+            // dispatch(Searchuser(searchUser))
             dispatch(currentuser(data))
             dispatch(followers(Followers))
             dispatch(repos(reposfetched))
-            dispatch(loading(isFetching))
-            console.log("repos ",reposfetched,Followers)
+            dispatch(loading(setloader))
+            // console.log("repos ",reposfetched,Followers)
+            console.log("useffect RASNNN")
            }
             }
-    }, [data,isFollowerFetching,Followers,isFetching,isError,dispatch,isReposFetching,reposfetched])
+    })
         
     return (
         <>
        {isError && <div className="mx-auto pl-3 items-center justify-center gap-2 w-full md:w-8/12 lg:w-8/12 text-red-500 text-sm italic font-semibold">
            User <span className="font-extrabold text-lg mx-1"> { searchUser} </span> Not Found!!</div>} 
-         <SearchBox searchUserfn={setSearchuser} isloading={isLoading} />
+         <SearchBox searchUserfn={setSearchuser} currentSearchUser={searchUser} isloading={isLoading} />
         </> 
         )
 }
 
 
-function SearchBox({searchUserfn,isloading}: Props): ReactElement {
+function SearchBox({searchUserfn,isloading,currentSearchUser}: Props): ReactElement {
     const dispatch= UseAppDispatch()
     const [username,setUsername]=useState<string>(getLocalStorage())
+    const [RequestLeft,setRequestLeft]=useState<number>(60)
+    const [toggleRateApi,settoggleRateApi]=useState<boolean>(true)
 
     // const {data:requests={rate:{remaining:60}},isFetching}=useRequestleftQuery(40)
     // console.log(requests)
     // const left=requests.rate.remaining ;
-    const RequestLeft=UseAppSelector(state=>state.Requestleft)
+
+    // const RequestLeft=UseAppSelector(state=>state.Requestleft)
+    const currentSearchedUser=currentSearchUser;
+
+    async function fetchrequestleft() {
+        try {
+            const response=await fetch("https://api.github.com/rate_limit");
+            const RequestLeft=await response.json()
+            // dispatch(requestleft(RequestLeft.rate.remaining))
+            setRequestLeft(RequestLeft.rate.remaining)
+        } catch (error) {
+            console.log(error)
+            dispatch(requestleft(RequestLeft))  
+        }
+ }
 
     useEffect(
          () => {
-         async function fetchrequestleft() {
-                try {
-                    const response=await fetch("https://api.github.com/rate_limit");
-                    const Requestleft=await response.json()
-                    dispatch(requestleft(Requestleft.rate.remaining))
-                } catch (error) {
-                    console.log(error)
-                    dispatch(requestleft(RequestLeft))  
-                }
-         }
          fetchrequestleft();
-    }, [isloading,dispatch])
+    },[toggleRateApi])
     
     function handlesubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         searchUserfn(username);
         localStorage.setItem("username",username);
-        // dispatch(Searchuser(username))
-        // fetchagain()
-        dispatch(loading(!isloading))
-        
+        dispatch(Searchuser(username)) 
+        fetchrequestleft();
+        settoggleRateApi(!toggleRateApi)
+        dispatch(loading(true)) 
     }
      
     function handleSearchName(e:React.FormEvent<HTMLInputElement>){
