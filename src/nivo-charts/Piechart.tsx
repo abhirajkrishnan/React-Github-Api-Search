@@ -9,7 +9,7 @@ interface Props {
 export const Piechart = ({ data  }:Props) => (
     <ResponsivePie
       data={data}
-      margin={{ top: 30, right: 60, bottom: 60, left: 60 }}
+      margin={{ top: 30, right: 60, bottom: 80, left: 60 }}
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={3}
@@ -112,7 +112,7 @@ export const Piechart = ({ data  }:Props) => (
           itemTextColor: "#999",
           itemDirection: "top-to-bottom",
           itemOpacity: 1,
-          symbolSize: 8,
+          symbolSize: 12,
           symbolShape: "square",
           effects: [
             {

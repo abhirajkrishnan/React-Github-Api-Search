@@ -8,7 +8,8 @@ interface Props {
 
 function Language({}: Props): ReactElement {
     return (
-        <article className="bg-white col-span-2 p-2 md:h-96 flex flex-col shadow-xl rounded-lg">
+        <article className="bg-white col-span-2 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
+            <p className="flex justify-center items-center text-xl font-semibold">Languages</p>
             <Piechart data={dataset}/>
         </article>
     )

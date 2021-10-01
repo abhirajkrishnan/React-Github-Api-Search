@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Ratelimit, UserObject } from '../types';
 import Followers from '../mockdata/mockFollower'
+import {Repos} from "./repos"
 
 export const githubSearchApi = createApi({
   reducerPath: 'githubSearchApi',
@@ -10,12 +11,15 @@ export const githubSearchApi = createApi({
       query: (name) => `users/${name}`,
     }),
     getFollowers:builder.query<typeof Followers, string>({
-      query: (name) => `users/${name}/followers?per_page=30`,
+      query: (name) => `users/${name}/followers?per_page=50`,
     }),
-    requestleft:builder.query<Ratelimit,number>({
-      query: (nos) => `rate_limit`,
+    // requestleft:builder.query<Ratelimit,void>({
+    //   query: () => `rate_limit`,
+    // }),
+    repos:builder.query<Repos,string>({
+      query: (name) => `users/${name}/repos?per_page=100`,
     }),
   }),
 })
 
-export const {useGetgithubUserByNameQuery,useGetFollowersQuery,useRequestleftQuery } = githubSearchApi
+export const {useGetgithubUserByNameQuery,useGetFollowersQuery,useReposQuery } = githubSearchApi
