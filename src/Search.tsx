@@ -14,9 +14,9 @@ import {repos} from './features/repos'
 
 interface Props {
     searchUserfn:Dispatch<SetStateAction<string>>;
-    // fetchagain:() => void;
+    RequestLeft:number;
     isloading:boolean;
-    currentSearchUser:string;
+    // currentSearchUser:string;
 }
 function getLocalStorage(){
     const username:string=window.localStorage.getItem('username') || "wesbos";
@@ -24,78 +24,72 @@ function getLocalStorage(){
 }
 
 function Search(): ReactElement {
-    // const loader=UseAppSelector(state=>state.loader)
+    
     const dispatch= UseAppDispatch()
+  
     const [searchUser,setSearchuser]=useState<string>(getLocalStorage())
-    const {data={},isFetching,refetch,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
-    const {data:Followers=[],isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
-    const {data:reposfetched= [],isFetching:isReposFetching}=useReposQuery(searchUser)
+    const [RequestLeft,setRequestLeft]=useState<number>(60)
+
+    
+    const {data={},isFetching,isSuccess,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
+    const {data:Followers=[],isSuccess:getFollowersSuccess,isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
+    const {data:reposfetched= [],isSuccess:getReposSuccess,isFetching:isReposFetching}=useReposQuery(searchUser)
       
 
-    console.log("rendered")
-    const setloader=isFollowerFetching && isReposFetching && isFetching;
+   
+    const setloader=isSuccess && getFollowersSuccess && getReposSuccess;
+
+    const fetchrequestleft= useCallback(async ()=>{
+            try {
+                const response=await fetch("https://api.github.com/rate_limit");
+                const RequestLeft=await response.json()
+                setRequestLeft(RequestLeft.rate.remaining)
+            } catch (error) {
+                console.log(error)
+                dispatch(requestleft(RequestLeft))  
+            }
+     },
+        []
+    )
+
     useEffect(() => {
-     if(data && Followers && reposfetched && !isFollowerFetching &&  !isReposFetching && !isFetching  ) {
+        
+
            if(isError) dispatch(loading(false))
-           else {
-            // dispatch(Searchuser(searchUser))
+
+           if(data && Followers && reposfetched && !isFollowerFetching &&  !isReposFetching && !isFetching  ) { 
             dispatch(currentuser(data))
             dispatch(followers(Followers))
             dispatch(repos(reposfetched))
-            dispatch(loading(setloader))
-            // console.log("repos ",reposfetched,Followers)
-            console.log("useffect RASNNN")
+            fetchrequestleft();
+            dispatch(loading(!setloader))        
            }
-            }
-    })
-        
+ }
+   ,[data,Followers,reposfetched] )
+ 
     return (
         <>
        {isError && <div className="mx-auto pl-3 items-center justify-center gap-2 w-full md:w-8/12 lg:w-8/12 text-red-500 text-sm italic font-semibold">
            User <span className="font-extrabold text-lg mx-1"> { searchUser} </span> Not Found!!</div>} 
-         <SearchBox searchUserfn={setSearchuser} currentSearchUser={searchUser} isloading={isLoading} />
+         <SearchBox searchUserfn={setSearchuser}  isloading={isLoading} RequestLeft={RequestLeft} />
         </> 
         )
 }
 
 
-function SearchBox({searchUserfn,isloading,currentSearchUser}: Props): ReactElement {
+function SearchBox({searchUserfn,isloading,RequestLeft}: Props): ReactElement {
     const dispatch= UseAppDispatch()
     const [username,setUsername]=useState<string>(getLocalStorage())
-    const [RequestLeft,setRequestLeft]=useState<number>(60)
-    const [toggleRateApi,settoggleRateApi]=useState<boolean>(true)
+    
+    
+   
 
-    // const {data:requests={rate:{remaining:60}},isFetching}=useRequestleftQuery(40)
-    // console.log(requests)
-    // const left=requests.rate.remaining ;
-
-    // const RequestLeft=UseAppSelector(state=>state.Requestleft)
-    const currentSearchedUser=currentSearchUser;
-
-    async function fetchrequestleft() {
-        try {
-            const response=await fetch("https://api.github.com/rate_limit");
-            const RequestLeft=await response.json()
-            // dispatch(requestleft(RequestLeft.rate.remaining))
-            setRequestLeft(RequestLeft.rate.remaining)
-        } catch (error) {
-            console.log(error)
-            dispatch(requestleft(RequestLeft))  
-        }
- }
-
-    useEffect(
-         () => {
-         fetchrequestleft();
-    },[toggleRateApi])
     
     function handlesubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         searchUserfn(username);
         localStorage.setItem("username",username);
-        dispatch(Searchuser(username)) 
-        fetchrequestleft();
-        settoggleRateApi(!toggleRateApi)
+        dispatch(Searchuser(username))      
         dispatch(loading(true)) 
     }
      
