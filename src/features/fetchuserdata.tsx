@@ -13,13 +13,13 @@ export const githubSearchApi = createApi({
     getFollowers:builder.query<typeof Followers, string>({
       query: (name) => `users/${name}/followers?per_page=50`,
     }),
-    // requestleft:builder.query<Ratelimit,void>({
-    //   query: () => `rate_limit`,
-    // }),
+    requestleft:builder.query<Ratelimit,void>({
+      query: () => `rate_limit`,
+    }),
     repos:builder.query<Repos,string>({
       query: (name) => `users/${name}/repos?per_page=100`,
     }),
   }),
 })
 
-export const {useGetgithubUserByNameQuery,useGetFollowersQuery,useReposQuery } = githubSearchApi
+export const {useGetgithubUserByNameQuery,useGetFollowersQuery,useReposQuery,useRequestleftQuery } = githubSearchApi

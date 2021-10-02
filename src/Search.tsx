@@ -1,6 +1,6 @@
 import React, { ReactElement,useState,useEffect,Dispatch,SetStateAction,useCallback} from 'react'
 import {FaSearchengin} from 'react-icons/fa'
-import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery  } from './features/fetchuserdata'
+import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery,useRequestleftQuery  } from './features/fetchuserdata'
 import {loading} from './features/loading'
 import {currentuser} from './features/data'
 import mockRepos from './mockdata/mockRepos'
@@ -28,45 +28,44 @@ function Search(): ReactElement {
     const dispatch= UseAppDispatch()
   
     const [searchUser,setSearchuser]=useState<string>(getLocalStorage())
-    const [RequestLeft,setRequestLeft]=useState<number>(60)
+    // const [RequestLeft,setRequestLeft]=useState<number>(60)
 
     
     const {data={},isFetching,isSuccess,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
     const {data:Followers=[],isSuccess:getFollowersSuccess,isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
     const {data:reposfetched= [],isSuccess:getReposSuccess,isFetching:isReposFetching}=useReposQuery(searchUser)
-      
-
+    const {RequestLeft=60,refetch}=useRequestleftQuery(undefined,{
+        selectFromResult: ({ data }) => ({
+          RequestLeft: data?.rate?.remaining,
+        }),
+      })
+    
+      useEffect(() => {
+        if(data && Followers && reposfetched && !isFetching && !isFollowerFetching && !isReposFetching) dispatch(loading(false))
+        console.log("ALWAys ")
+     })
+  
    
-    const setloader=isSuccess && getFollowersSuccess && getReposSuccess;
-
-    const fetchrequestleft= useCallback(async ()=>{
-            try {
-                const response=await fetch("https://api.github.com/rate_limit");
-                const RequestLeft=await response.json()
-                setRequestLeft(RequestLeft.rate.remaining)
-            } catch (error) {
-                console.log(error)
-                dispatch(requestleft(RequestLeft))  
-            }
-     },
-        []
-    )
+    // const setloader=isSuccess && getFollowersSuccess && getReposSuccess;
 
     useEffect(() => {
-        
+        dispatch(currentuser(data))
+        console.log("data ")
+    }, [data])
 
-           if(isError) dispatch(loading(false))
+    useEffect(() => {
+        dispatch(followers(Followers))
+        console.log("Followers")
+    }, [Followers])
 
-           if(data && Followers && reposfetched && !isFollowerFetching &&  !isReposFetching && !isFetching  ) { 
-            dispatch(currentuser(data))
-            dispatch(followers(Followers))
-            dispatch(repos(reposfetched))
-            fetchrequestleft();
-            dispatch(loading(!setloader))        
-           }
- }
-   ,[data,Followers,reposfetched] )
- 
+    useEffect(() => {
+        dispatch(repos(reposfetched))
+        refetch()
+        dispatch(loading(false))
+        console.log("reposFetched ")
+    }, [reposfetched])
+
+   
     return (
         <>
        {isError && <div className="mx-auto pl-3 items-center justify-center gap-2 w-full md:w-8/12 lg:w-8/12 text-red-500 text-sm italic font-semibold">
@@ -111,7 +110,7 @@ function SearchBox({searchUserfn,isloading,RequestLeft}: Props): ReactElement {
             <button type="submit" className={`bg-blue-400 hover:bg-blue-700 rounded text-white p-1 pl-4 pr-4 ${!RequestLeft?"hidden":"block"}`} >
                 <p className="font-semibold text-base ">Search</p>
             </button>
-           {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded!!</p>}
+           {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded for the hour!!</p>}
         </form>
         <h3 className=" text-xl lg:text-2xl items-center justify-items-start align-middle text-gray-500 font-mono font-semibold">Requests : {RequestLeft} /60</h3>
         </section>
