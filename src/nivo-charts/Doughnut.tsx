@@ -6,24 +6,24 @@ interface Props {
     data:any
 }
 
-export const Piechart = ({ data  }:Props) => (
+export const Doughnut = ({ data  }:Props) => (
     <ResponsivePie
       data={data}
       margin={{ top: 30, right: 60, bottom: 80, left: 60 }}
-      innerRadius={0}
+      innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={3}
       activeInnerRadiusOffset={8}
       activeOuterRadiusOffset={8}
       borderWidth={1}
-      colors={{ scheme: 'category10' }}
+      colors={{ scheme: 'dark2' }}
       borderColor="#120d0d"
       enableArcLinkLabels={true}
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor="#333333"
       arcLinkLabelsOffset={-8}
       arcLinkLabelsDiagonalLength={21}
-      arcLabel={function(e){return `%${e.value}`}}
+      arcLabel={function(e){return `${e.value}`}}
       arcLinkLabelsStraightLength={8}
       arcLinkLabelsThickness={5}
       arcLinkLabelsColor={{ from: "color" }}

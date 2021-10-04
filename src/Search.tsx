@@ -34,6 +34,7 @@ function Search(): ReactElement {
     const {data={},isFetching,isSuccess,isError,isLoading}=useGetgithubUserByNameQuery(searchUser)
     const {data:Followers=[],isSuccess:getFollowersSuccess,isFetching:isFollowerFetching}=useGetFollowersQuery(searchUser)
     const {data:reposfetched= [],isSuccess:getReposSuccess,isFetching:isReposFetching}=useReposQuery(searchUser)
+   
     const {RequestLeft=60,refetch}=useRequestleftQuery(undefined,{
         selectFromResult: ({ data }) => ({
           RequestLeft: data?.rate?.remaining,
@@ -46,8 +47,6 @@ function Search(): ReactElement {
      })
   
    
-    // const setloader=isSuccess && getFollowersSuccess && getReposSuccess;
-
     useEffect(() => {
         dispatch(currentuser(data))
         console.log("data ")

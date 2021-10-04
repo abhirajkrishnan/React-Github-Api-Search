@@ -1,33 +1,7 @@
 export const dataset = [
-    {
-      id: "rust",
-      label: "rust",
-      value: 138,
-      color: "hsl(192, 70%, 50%)"
-    },
-    {
-      id: "sass",
-      label: "sass",
-      value: 435,
-      color: "hsl(101, 70%, 50%)"
-    },
-    {
-      id: "hack",
-      label: "hack",
-      value: 358,
-      color: "hsl(181, 70%, 50%)"
-    },
-    {
-      id: "javascript",
-      label: "javascript",
-      value: 62,
-      color: "hsl(234, 70%, 50%)"
-    },
-    {
-      id: "c",
-      label: "c",
-      value: 585,
-      color: "hsl(293, 70%, 50%)"
-    }
-  ];
-  
+{ id: 'JavaScript', label: 'JavaScript', value: 24, stars: 8953 },
+{ id: 'CSS', label: 'CSS', value: 7, stars: 10694 },
+{ id: 'PHP', label: 'PHP', value: 5, stars: 19 },
+{ id: 'HTML', label: 'HTML', value: 4, stars: 431 },
+{ id: 'TypeScript', label: 'TypeScript', value: 4, stars: 564 }
+] ;
