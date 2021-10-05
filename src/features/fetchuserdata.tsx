@@ -17,7 +17,7 @@ export const githubSearchApi = createApi({
       query: () => `rate_limit`,
     }),
     repos:builder.query<Repos,string>({
-      query: (name) => `users/${name}/repos?per_page=100`,
+      query: (name) => `users/${name}/repos`,
     }),
   }),
 })

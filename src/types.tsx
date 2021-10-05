@@ -79,3 +79,19 @@ export interface Resources {
     integration_manifest: Rate;
     search:               Rate;
 }
+
+export interface datasetType {
+    id:string;
+    label:string;
+    value:number;
+    stars:number;
+  }
+
+export type poprepo={reponame:string,stars:number}
+
+export type Forkrepo={reponame:string,fork:number}
+
+export interface reduced {
+    [key:string]:datasetType
+  }
+  export type obj={}

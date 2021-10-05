@@ -43,25 +43,25 @@ function Search(): ReactElement {
     
       useEffect(() => {
         if(data && Followers && reposfetched && !isFetching && !isFollowerFetching && !isReposFetching) dispatch(loading(false))
-        console.log("ALWAys ")
+        
      })
   
    
     useEffect(() => {
         dispatch(currentuser(data))
-        console.log("data ")
+       
     }, [data])
 
     useEffect(() => {
         dispatch(followers(Followers))
-        console.log("Followers")
+       
     }, [Followers])
 
     useEffect(() => {
         dispatch(repos(reposfetched))
         refetch()
         dispatch(loading(false))
-        console.log("reposFetched ")
+     
     }, [reposfetched])
 
    
@@ -109,7 +109,7 @@ function SearchBox({searchUserfn,isloading,RequestLeft}: Props): ReactElement {
             <button type="submit" className={`bg-blue-400 hover:bg-blue-700 rounded text-white p-1 pl-4 pr-4 ${!RequestLeft?"hidden":"block"}`} >
                 <p className="font-semibold text-base ">Search</p>
             </button>
-           {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded for the hour!!</p>}
+           {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded !!</p>}
         </form>
         <h3 className=" text-xl lg:text-2xl items-center justify-items-start align-middle text-gray-500 font-mono font-semibold">Requests : {RequestLeft} /60</h3>
         </section>

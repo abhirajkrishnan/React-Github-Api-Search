@@ -1,20 +1,7 @@
 import React, { ReactElement,useState ,useEffect} from 'react'
 import {Doughnut} from './nivo-charts/Doughnut'
-// import {dataset} from './nivo-charts/dataset'
 import {UseAppSelector} from './Hooks'
-import {Repos} from './features/repos'
-
-interface datasetType {
-    id:string;
-    label:string;
-    value:number;
-    stars:number;
-  }
-
-  interface reduced {
-    [key:string]:datasetType
-  }
-type obj={}
+import {datasetType,reduced,obj} from './types'
 
 
 function Stars(): ReactElement {
@@ -47,13 +34,13 @@ function Stars(): ReactElement {
 
     const mostStars:datasetType[]=Object.values(repoinfo).sort((a,b)=>b.stars-a.stars).slice(0,5).map(item=>({...item,value:item.stars}))
 
-          console.log("Stars RANNN",mostStars)
+         
         useEffect(() => {
             setdataset(mostStars)
         },[repos])
 
     return (
-        <article className="bg-white col-span-2 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
+        <article className="bg-white col-span-2 lg:col-span-3 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
             <p className="flex justify-center items-center text-xl font-semibold">Most Starred Languages</p>
             <Doughnut data={dataset}/>
         </article>

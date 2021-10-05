@@ -2,19 +2,7 @@ import React, { ReactElement,useState ,useEffect} from 'react'
 import {Piechart} from './nivo-charts/Piechart'
 // import {dataset} from './nivo-charts/dataset'
 import {UseAppSelector} from './Hooks'
-import {Repos} from './features/repos'
-
-interface datasetType {
-    id:string;
-    label:string;
-    value:number;
-    stars:number;
-  }
-
-  interface reduced {
-    [key:string]:datasetType
-  }
-type obj={}
+import {datasetType,reduced,obj} from './types'
 
 
 function Language(): ReactElement {
@@ -59,13 +47,13 @@ function Language(): ReactElement {
             })
             return mapped;
           }
-          console.log("Language RANNN",mostUsed)
+          
         useEffect(() => {
             setdataset(percentage(mostUsed))
         },[repos])
 
     return (
-        <article className="bg-white col-span-2 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
+        <article className="bg-white col-span-2 lg:col-span-3 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
             <p className="flex justify-center items-center text-xl font-semibold">Most Used Languages</p>
             <Piechart data={dataset}/>
         </article>

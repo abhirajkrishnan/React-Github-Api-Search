@@ -1,10 +1,8 @@
 import React, { ReactElement } from 'react'
-import {FaSearchengin} from 'react-icons/fa'
 import {RiGitRepositoryFill} from 'react-icons/ri'
 import {BsPeopleFill} from 'react-icons/bs'
 import {FiUserPlus} from 'react-icons/fi'
 import {GoGist} from 'react-icons/go'
-// import data from './mockdata/mockUser'
 import {UseAppSelector} from './Hooks'
 
 

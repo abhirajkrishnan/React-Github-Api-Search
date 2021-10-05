@@ -9,6 +9,8 @@ import Loading from './Loading';
 import {UseAppSelector} from './Hooks'
 import Language from './Language';
 import Stars from './Stars';
+import MostForkedRepos from './MostForkedRepos';
+import MostPopularRepos from './MostPopularRepos';
 
 function DashBoard() {
   
@@ -26,11 +28,11 @@ function DashBoard() {
           <UserCard/>
           <FollowersCard/>
         </section>
-        <section className="mx-auto p-3 grid grid-cols-2 lg:grid-cols-4 justify-center gap-3 w-full md:w-8/12 lg:w-8/12">
+        <section className="mx-auto p-3 grid grid-cols-2 lg:grid-cols-7 justify-center gap-3 w-full md:w-8/12 lg:w-8/12">
           <Language/>
-          <FollowersCard/>
+          <MostPopularRepos/>
           <Stars/>
-          <FollowersCard/>
+          <MostForkedRepos/>
         </section>
         </div>}
 

@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react'
 import { ResponsivePie } from "@nivo/pie";
-import{dataset} from './dataset'
-
+import {datasetType} from '../types'
 interface Props {
-    data:any
+    data:datasetType[]
 }
 
 export const Piechart = ({ data  }:Props) => (

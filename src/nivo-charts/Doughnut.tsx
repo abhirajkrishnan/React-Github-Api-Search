@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react'
 import { ResponsivePie } from "@nivo/pie";
-import{dataset} from './dataset'
+import{datasetType} from '../types'
 
 interface Props {
-    data:any
+    data:datasetType[]
 }
 
 export const Doughnut = ({ data  }:Props) => (
@@ -23,7 +23,7 @@ export const Doughnut = ({ data  }:Props) => (
       arcLinkLabelsTextColor="#333333"
       arcLinkLabelsOffset={-8}
       arcLinkLabelsDiagonalLength={21}
-      arcLabel={function(e){return `${e.value}`}}
+      arcLabel={function(e){return `${e.value} Star's`}}
       arcLinkLabelsStraightLength={8}
       arcLinkLabelsThickness={5}
       arcLinkLabelsColor={{ from: "color" }}
