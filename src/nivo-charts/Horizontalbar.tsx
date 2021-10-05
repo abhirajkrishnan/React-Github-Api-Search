@@ -45,7 +45,7 @@ function HorizontalBar({datas}:Props): ReactElement {
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor="#fafafa"
-     
+        motionConfig={{ mass: 347, tension: 253, friction: 201, clamp: false, precision: 0.01, velocity: 0 }}
       />
       );
       
