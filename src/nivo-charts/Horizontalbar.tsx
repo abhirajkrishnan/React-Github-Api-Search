@@ -15,7 +15,7 @@ function HorizontalBar({datas}:Props): ReactElement {
         keys={["fork"]}
         indexBy="reponame"
         margin={{ top: 40, right: 30, bottom: 80, left: 110 }}
-        padding={0.4}
+        padding={0.1}
         layout="horizontal"
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}

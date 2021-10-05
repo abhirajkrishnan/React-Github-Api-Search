@@ -13,7 +13,7 @@ function StackedBar({data}:Props): ReactElement {
           keys={["stars"]}
           indexBy="reponame"
           margin={{ top: 30, right: 80, bottom: 80, left: 60 }}
-          padding={0.4}
+          padding={0.1}
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
           colors={{ scheme: 'category10' }}
