@@ -37,7 +37,7 @@ function DashBoard() {
         </div>}
 
         {loading && <Loading/>} 
-        )
+        
 
       
     </main>
