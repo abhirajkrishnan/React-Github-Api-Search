@@ -1,11 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom';
 
-interface Props {
-    
-}
-
-function Error({}: Props): ReactElement {
+function Error(): ReactElement {
     return (
         <div>
            <div className="bg-gradient-to-r from-purple-300 to-blue-200">

@@ -4,11 +4,8 @@ import {FaTwitter,FaLinkedin} from 'react-icons/fa'
 import {CgOrganisation} from 'react-icons/cg'
 import {UseAppSelector} from './Hooks'
 
-interface Props {
-    
-}
 
-function UserCard({}: Props): ReactElement {
+function UserCard(): ReactElement {
 
     const data=UseAppSelector(state=>state.user)
 
@@ -22,7 +19,7 @@ function UserCard({}: Props): ReactElement {
                    {data.twitter_username&& <p className="block">@{data.twitter_username}</p>}
                 </div>
                 <button className="flex items-center justify-center shadow border-blue-500 border-2 rounded-full px-2 lg:px-4 lg:py-2 text-blue-500 hover:bg-blue-500 hover:text-white">
-                    <a href={data.html_url} target="_blank">Follow </a>
+                    <a href={data.html_url} rel="noreferrer" target="_blank">Follow </a>
                 </button>
             </header>
             <p className="font-semibold text-base lg:text-lg">{data.bio}</p>

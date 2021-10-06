@@ -3,13 +3,9 @@ import {FaSearchengin} from 'react-icons/fa'
 import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery,useRequestleftQuery  } from './features/fetchuserdata'
 import {loading} from './features/loading'
 import {currentuser} from './features/data'
-import mockRepos from './mockdata/mockRepos'
 import { UseAppDispatch} from './Hooks'
-import {UseAppSelector} from './Hooks'
 import {Searchuser} from './features/searchuser'
 import { followers } from './features/followersdata'
-import {FollowersType} from './types'
-import {requestleft} from './features/Requests'
 import {repos} from './features/repos'
 
 interface Props {

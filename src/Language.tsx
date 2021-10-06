@@ -1,6 +1,5 @@
 import React, { ReactElement,useState ,useEffect} from 'react'
 import {Piechart} from './nivo-charts/Piechart'
-// import {dataset} from './nivo-charts/dataset'
 import {UseAppSelector} from './Hooks'
 import {datasetType,reduced,obj} from './types'
 

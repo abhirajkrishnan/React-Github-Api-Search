@@ -15,9 +15,8 @@ import MostPopularRepos from './MostPopularRepos';
 function DashBoard() {
   
   const loading=UseAppSelector(state=>state.loader)
-//  console.log(loading)
   return (
-    <main className=" h-full w-screen bg-gray-200">
+    <main className=" h-full w-screen bg-gray-200 ">
       <Nav/> 
      
         <Search/>

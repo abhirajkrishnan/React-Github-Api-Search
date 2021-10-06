@@ -2,11 +2,8 @@ import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom';
 import logo from './login-img.svg'
 
-interface Props {
-    
-}
 
-function Home({}: Props): ReactElement {
+function Home(): ReactElement {
     return (
         <>
          <main className="flex justify-center items-center flex-col my-auto h-screen w-screen bg-gradient-to-br from-gray-800 via-black to-black " >
