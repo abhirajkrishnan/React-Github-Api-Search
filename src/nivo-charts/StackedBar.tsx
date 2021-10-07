@@ -24,7 +24,7 @@ function StackedBar({data}:Props): ReactElement {
           axisBottom={{
             tickSize: 5,
             tickPadding: 10,
-            tickRotation: 10,
+            tickRotation: 30,
             legend: "Repos",
             legendOffset: 45,
             legendPosition: "middle",
