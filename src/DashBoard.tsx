@@ -16,7 +16,7 @@ function DashBoard() {
   
   const loading=UseAppSelector(state=>state.loader)
   return (
-    <main className=" h-full w-screen bg-gray-200 ">
+    <main className=" h-full w-full bg-gray-200 ">
       <Nav/> 
      
         <Search/>
