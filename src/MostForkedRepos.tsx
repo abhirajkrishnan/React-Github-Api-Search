@@ -18,7 +18,7 @@ function MostForkedRepos(): ReactElement {
 
     return (
         <article  className="bg-white col-span-2 lg:col-span-4 h-96 md:h-96 p-1 flex flex-col shadow-xl rounded-lg">
-        <h3 className="flex justify-center text-sm lg:text-2xl font-bold">Most Forked Repos</h3>
+        <h3 className="flex justify-center text-xl lg:text-2xl font-bold">Most Forked Repos</h3>
         <HorizontalBar datas={dataset}/>
     </article>
     )

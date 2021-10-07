@@ -53,7 +53,7 @@ function Language(): ReactElement {
 
     return (
         <article className="bg-white col-span-2 lg:col-span-3 p-1 h-96 md:h-96 flex flex-col shadow-xl rounded-lg">
-            <p className="flex justify-center items-center text-xl font-semibold">Most Used Languages</p>
+            <p className="flex justify-center items-center text-xl lg:text-2xl font-semibold">Most Used Languages</p>
             <Piechart data={dataset}/>
         </article>
     )
