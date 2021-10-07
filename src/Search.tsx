@@ -101,8 +101,8 @@ function SearchBox({searchUserfn,isloading,RequestLeft}: Props): ReactElement {
             <i className=" text-3xl"><FaSearchengin/></i>
              </span>
              
-           <input className="w-full rounded p-2" type="text" placeholder="Enter Github User Name" value={username} onChange={handleSearchName}/>
-            <button type="submit" className={`bg-blue-400 hover:bg-blue-700 rounded text-white p-1 pl-4 pr-4 ${!RequestLeft?"hidden":"block"}`} >
+           <input autoFocus className="w-full rounded p-2" type="text" placeholder="Enter Github User Name" value={username} onChange={handleSearchName}/>
+            <button type="submit" className={`bg-blue-400 transform hover:scale-110 motion-reduce:transform-none rounded text-white p-1 pl-4 pr-4 ${!RequestLeft?"hidden":"block"}`} >
                 <p className="font-semibold text-base ">Search</p>
             </button>
            {!RequestLeft && <p className="border-4 p-1 pr-4 bg-gray-200 mx-auto pl-3 items-center justify-center text-red-500 text-sm italic font-semibold">Request Limit Exceeded !!</p>}
