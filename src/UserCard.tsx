@@ -13,7 +13,10 @@ function UserCard(): ReactElement {
         <article className="bg-white col-span-2 p-5 flex flex-col shadow-xl rounded-lg">
             <h3 className="flex justify-center text-sm lg:text-2xl font-bold">User</h3>
             <header className="grid grid-cols-5 justify-center items-center p-4"> 
-                <img src={data.avatar_url} alt="" className="w-12 h-12 lg:w-20 lg:h-20 rounded-full object-cover"/>
+            <div className="w-12 h-12 lg:w-20 lg:h-20">
+                <img src={data.avatar_url} alt="" className=" rounded-full object-cover"/>
+            </div>
+                
                 <div className="pl-5  col-span-3 ">
                     <h2 className="block text-lg font-medium lg:font-semibold">{data.name}</h2>
                    {data.twitter_username&& <p className="block">@{data.twitter_username}</p>}
