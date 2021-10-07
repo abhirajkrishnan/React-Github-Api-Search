@@ -1,12 +1,12 @@
 import React, { ReactElement,useState,useEffect,Dispatch,SetStateAction,useCallback} from 'react'
 import {FaSearchengin} from 'react-icons/fa'
-import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery,useRequestleftQuery  } from './features/fetchuserdata'
-import {loading} from './features/loading'
-import {currentuser} from './features/data'
+import {useGetgithubUserByNameQuery , useGetFollowersQuery,useReposQuery,useRequestleftQuery  } from '../features/fetchuserdata'
+import {loading} from '../features/loading'
+import {currentuser} from '../features/data'
 import { UseAppDispatch} from './Hooks'
-import {Searchuser} from './features/searchuser'
-import { followers } from './features/followersdata'
-import {repos} from './features/repos'
+import {Searchuser} from '../features/searchuser'
+import { followers } from '../features/followersdata'
+import {repos} from '../features/repos'
 
 interface Props {
     searchUserfn:Dispatch<SetStateAction<string>>;

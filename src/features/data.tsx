@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import data from '../mockdata/mockUser'
 import { PayloadAction } from '@reduxjs/toolkit';
-import { UserObject } from '../types';
+import { UserObject } from '../components/types';
 const initialState:UserObject=data;
 
 

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userdata from './features/data'
-import { githubSearchApi } from './features/fetchuserdata';
-import loading from './features/loading'
-import searchuser from './features/searchuser';
-import followers from './features/followersdata';
-import Requestleft from './features/Requests';
-import Repos from './features/repos'
+import userdata from '../features/data'
+import { githubSearchApi } from '../features/fetchuserdata';
+import loading from '../features/loading'
+import searchuser from '../features/searchuser';
+import followers from '../features/followersdata';
+import Requestleft from '../features/Requests';
+import Repos from '../features/repos'
 
 export const store = configureStore({
   reducer: {

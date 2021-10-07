@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { ResponsiveBar } from "@nivo/bar"
-import { Forkrepo} from '../types'
+import { Forkrepo} from '../components/types'
 
 interface Props {
   datas:Forkrepo[]

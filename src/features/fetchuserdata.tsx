@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Ratelimit, UserObject } from '../types';
+import { Ratelimit, UserObject } from '../components/types';
 import Followers from '../mockdata/mockFollower'
 import {Repos} from "./repos"
 

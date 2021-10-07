@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import data from '../mockdata/mockFollower'
 import { PayloadAction } from '@reduxjs/toolkit';
-import {FollowersType} from '../types'
+import {FollowersType} from '../components/types'
 
 
 const initialState:FollowersType=data;

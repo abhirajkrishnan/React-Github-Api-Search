@@ -1,6 +1,6 @@
 import React, { ReactElement,useState,useEffect } from 'react'
 import {UseAppSelector} from './Hooks'
-import HorizontalBar from './nivo-charts/Horizontalbar'
+import HorizontalBar from '../nivo-charts/Horizontalbar'
 import { Forkrepo} from './types'
 
 

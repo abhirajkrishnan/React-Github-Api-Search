@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { ResponsiveBar } from "@nivo/bar"
-import {poprepo} from '../types'
+import {poprepo} from '../components/types'
 
 interface Props {
   data:poprepo[]

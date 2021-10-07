@@ -1,6 +1,6 @@
 import React from 'react';
 import Nav from './Nav'
-import './index.css';
+// import './index.css';
 import Search from './Search'
 import Info from './Info'
 import UserCard from './UserCard'

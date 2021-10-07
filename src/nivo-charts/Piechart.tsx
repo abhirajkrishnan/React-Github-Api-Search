@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { ResponsivePie } from "@nivo/pie";
-import {datasetType} from '../types'
+import {datasetType} from '../components/types'
 interface Props {
     data:datasetType[]
 }

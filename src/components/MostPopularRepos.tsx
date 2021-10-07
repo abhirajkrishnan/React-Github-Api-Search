@@ -1,6 +1,6 @@
 import React, { ReactElement,useState,useEffect } from 'react'
 import {UseAppSelector} from './Hooks'
-import StackedBar from './nivo-charts/StackedBar'
+import StackedBar from '../nivo-charts/StackedBar'
 import {poprepo} from './types'
 
 
