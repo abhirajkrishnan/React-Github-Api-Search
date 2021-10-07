@@ -11,8 +11,10 @@
 </p>
 </p>
 
-<p>Main goal While Making this app was to familiarize myself with</p>
 <h3>Hosted: <a href="https://github-search-reactapp.netlify.app/">https://github-search-reactapp.netlify.app/</a></h3>
+<br>
+<p>Main goal While Making this app was to familiarize myself with</p>
+
 <ul>
 <li><a href="https://tailwindcss.com/">Tailwind-Css</a></li>
 <li><a href="https://react-typescript-cheatsheet.netlify.app/docs/basic/setup/">  Typescript</a></li>
