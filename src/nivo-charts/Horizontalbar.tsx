@@ -27,7 +27,7 @@ function HorizontalBar({datas}:Props): ReactElement {
         axisBottom={{
           tickSize: 5,
           tickPadding: 10,
-          tickRotation: 10,
+          tickRotation: 40,
           legend: "Forks",
           legendOffset: 45,
           legendPosition: "middle",
