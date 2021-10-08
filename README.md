@@ -25,7 +25,7 @@
 <h4>For Charting I've Used <a href="https://nivo.rocks/components/">Nivo-Charts</a> </h4>
 
 
-<p>App Idea From one of the projects of <a href="https://www.youtube.com/c/CodingAddict">John smilga</a></p>
+<h6>App Idea From one of the projects of <a href="https://www.youtube.com/c/CodingAddict">John smilga</a></h6>
 
 
 
