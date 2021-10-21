@@ -1,6 +1,5 @@
 import React from 'react';
-import Nav from './Nav'
-// import './index.css';
+// import Nav from './Nav'
 import Search from './Search'
 import Info from './Info'
 import UserCard from './UserCard'
@@ -17,7 +16,7 @@ function DashBoard() {
   const loading=UseAppSelector(state=>state.loader)
   return (
     <main className=" h-full w-full bg-gray-200 ">
-      <Nav/> 
+      {/* <Nav/>  */}
      
         <Search/>
         { !loading &&
