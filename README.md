@@ -24,7 +24,7 @@
 
 <h4>For Charting I've Used <a href="https://nivo.rocks/components/">Nivo-Charts</a> </h4>
 
-
+<h5>Using Redux-Toolkit was overuse.Using React Global Context would be enough.</h5>
 <h6>App Idea From one of the projects of <a href="https://www.youtube.com/c/CodingAddict">John smilga</a></h6>
 
 
