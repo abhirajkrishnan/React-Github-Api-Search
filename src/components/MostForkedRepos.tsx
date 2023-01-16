@@ -11,7 +11,6 @@ function MostForkedRepos(): ReactElement {
 
    const Forkedrepos:Forkrepo[]=Repos.map((item)=>({ reponame:item.name,fork:item.forks_count})).sort((a,b)=>b.fork-a.fork).slice(0,5)
     
-    console.log("Forks",Forkedrepos)
     useEffect(() => {
         setdataset(Forkedrepos)
     }, [Repos])

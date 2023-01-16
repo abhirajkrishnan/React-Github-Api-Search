@@ -10,7 +10,6 @@ function MostPopularRepos(): ReactElement {
     const [dataset, setdataset] = useState<poprepo[]>([])
 
     const Popularrepos:poprepo[]=Repos.map((item)=>({ reponame:item.name,stars:item.stargazers_count})).sort((a,b)=>b.stars-a.stars).slice(0,5)
-    console.log("Popular Oness",Popularrepos)
 
     useEffect(() => {
         setdataset(Popularrepos)

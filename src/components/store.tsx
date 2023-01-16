@@ -6,6 +6,7 @@ import searchuser from '../features/searchuser';
 import followers from '../features/followersdata';
 import Requestleft from '../features/Requests';
 import Repos from '../features/repos'
+import currentLoggedInUser  from '../features/currentUser';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     searchuser:searchuser,
     Requestleft,
     Repos,
+    currentLoggedInUser,
     [githubSearchApi.reducerPath]:githubSearchApi.reducer
   },
   middleware:(getDefaultMiddleware)=>{

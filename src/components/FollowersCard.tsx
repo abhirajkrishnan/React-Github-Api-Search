@@ -13,7 +13,7 @@ function FollowersCard(): ReactElement {
             <div className="flex flex-col h-72 overflow-scroll relative">
             {Follower.map(user=>{
                 return(
-                    <article className="flex items-center p-2 hover:scale-105 hover:translate-x-4 ease-in-out duration-300 transform">
+                    <article key={user.id} className="flex items-center p-2 hover:scale-105 hover:translate-x-4 ease-in-out duration-300 transform">
                     <div className="w-10 h-10 lg:w-14 lg:h-14  ">
                         <img src={user.avatar_url} alt="" className="rounded-full object-cover" />
                     </div>    

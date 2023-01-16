@@ -15,9 +15,9 @@ function DashBoard() {
   
   const loading=UseAppSelector(state=>state.loader)
   return (
-    <main className=" h-full w-full bg-gray-200 ">
+    <main className=" h-full w-full bg-gray-200  ">
       {/* <Nav/>  */}
-     
+      <p className='font-bold text-base lg:text-xl flex justify-center'>Hi , Abhi</p>
         <Search/>
         { !loading &&
         <div>
