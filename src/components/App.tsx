@@ -11,20 +11,18 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./Home";
-import { auth, db } from "../firebase";
 import { UseAppDispatch, UseAppSelector } from "./Hooks";
+import { auth, db } from "../firebase";
+import { getRedirectResult } from "firebase/auth";
 
 function App() {
-  const dispatch = UseAppDispatch();
-  const userdetails = UseAppSelector((state) => state.currentLoggedInUser);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home />} />
         <Route path="dashboard" element={<DashBoard />} />
         <Route path="login" element={<Login />} />
-
 
         {/* <Route path="/dashboard">
           <DashBoard />

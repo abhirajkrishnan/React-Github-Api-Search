@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
-const initialState = {
+interface search {
+  name: string;
+  timeStamp: number;
+}
+const initialState: {
+  username: string;
+  userId: string;
+  searches: search[];
+  isLoggedIn: boolean;
+} = {
   username: "",
   userId: "",
   searches: [],
@@ -15,9 +24,14 @@ const currentLoggedInUserSlice = createSlice({
       state.username = action.payload.userinfo;
       state.userId = action.payload.userId;
       state.isLoggedIn = action.payload.isLoggedIn;
+      if (action.payload.searches) {
+        state.searches = action.payload.searches;
+      }
     },
     searchesByUser: (state, action) => {
-      state.searches = action.payload;
+      state.searches = action.payload.sort(
+        (a: search, b: search) => b.timeStamp - a.timeStamp
+      );
     },
   },
 });

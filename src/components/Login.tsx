@@ -3,10 +3,10 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  getRedirectResult,
   signOut,
   signInWithRedirect,
+  onAuthStateChanged,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -26,7 +26,7 @@ import img from "./github.jpg";
 import { UseAppDispatch, UseAppSelector } from "./Hooks";
 import { currentLoggedInUser, searchesByUser } from "../features/currentUser";
 import { v4 as uuidv4 } from "uuid";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {}
 const provider = new GoogleAuthProvider();
@@ -34,13 +34,25 @@ const provider = new GoogleAuthProvider();
 function Login({}: Props): ReactElement {
   const dispatch = UseAppDispatch();
   const userdetails = UseAppSelector((state) => state.currentLoggedInUser);
-
+  const isLoggedin = UseAppSelector(
+    (state) => state.currentLoggedInUser.isLoggedIn
+  );
+  const navigate = useNavigate();
   const [userinfo, setUserinfo] = useState({
     displayName: "",
     uid: "",
+    searches: [],
   });
-  const [sessionId, setSessionId] = useState("");
   function signout() {
+    const docid = localStorage.getItem("docId");
+    if (!!docid) {
+      let docRef = doc(db, "users", docid);
+      updateDoc(docRef, {
+        sessionId: deleteField(),
+      }).then(() => {
+        console.log("signedout");
+      });
+    }
     localStorage.removeItem("docId");
     localStorage.removeItem("sessionId");
     dispatch(searchesByUser([]));
@@ -51,54 +63,55 @@ function Login({}: Props): ReactElement {
         isLoggedIn: false,
       })
     );
-    const docid = localStorage.getItem("docId");
-    if (!!docid) {
-      let docRef = doc(db, "users", docid);
-      updateDoc(docRef, {
-        sessionId: deleteField(),
-      }).then(() => {
-        console.log("signedout");
-      });
-    }
     signOut(auth)
-      .then(() => {})
+      .then(() => {
+        console.log("signedout");
+      })
       .catch((error) => {
         console.log(error);
       });
   }
   async function signin() {
     try {
-      const res = await signInWithPopup(auth, provider);
+      await signInWithRedirect(auth, provider);
+      const res: any = await getRedirectResult(auth);
+      console.log("RESULT", res);
       const user = res.user;
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
       const docs = await getDocs(q);
-      // console.log(docs.docs[0].id);
-      localStorage.setItem("docId", docs.docs[0].id);
       const searchdocRef = doc(db, "searches", user.uid);
       const searchesdocs = await getDoc(searchdocRef);
       if (searchesdocs.exists()) {
         console.log(searchesdocs.data().searchedByUser);
-        dispatch(searchesByUser(searchesdocs.data().searchedByUser));
+        setUserinfo({
+          ...userinfo,
+          displayName: user.displayName || "",
+          uid: user.uid,
+          searches: searchesdocs.data().searchedByUser,
+        });
       } else {
         setDoc(searchdocRef, { searchedByUser: [] });
+        setUserinfo({
+          ...userinfo,
+          displayName: user.displayName || "",
+          uid: user.uid,
+          searches: [],
+        });
       }
-      setUserinfo({
-        ...userinfo,
-        displayName: user.displayName || "",
-        uid: user.uid,
-      });
       if (docs.docs.length === 0) {
         let sessionId = uuidv4();
         localStorage.setItem("sessionId", sessionId);
-        await addDoc(collection(db, "users"), {
+        let ref = await addDoc(collection(db, "users"), {
           uid: user.uid,
           name: user.displayName,
           authProvider: "google",
           email: user.email,
           sessionId,
         });
+        localStorage.setItem("docId", ref.id);
       } else {
         let sessionId = uuidv4();
+        localStorage.setItem("docId", docs.docs[0].id);
         const docid = localStorage.getItem("docId");
         if (!!docid) {
           let docRef = doc(db, "users", docid);
@@ -114,11 +127,67 @@ function Login({}: Props): ReactElement {
       alert(err.message);
     }
   }
-  function redirecting(userdetails: any) {
-    if (userdetails.isLoggedIn) {
-      <Navigate to="/dashboard" replace={true} />;
-    }
-  }
+  // async function signin() {
+  //   await signInWithRedirect(auth, provider);
+  // }
+  // useEffect(() => { https://github.com/firebase/firebase-js-sdk/issues/3115
+  //   getRedirectResult(auth).then((result) => {
+  //     console.log("RESULT", result);
+  //     if (result) {
+  //       console.log("RESULT", result);
+  //       const user = result.user;
+  //       const q = query(collection(db, "users"), where("uid", "==", user.uid));
+  //       getDocs(q).then((docs) => {
+  //         if (docs.docs.length === 0) {
+  //           let sessionId = uuidv4();
+  //           localStorage.setItem("sessionId", sessionId);
+  //           addDoc(collection(db, "users"), {
+  //             uid: user.uid,
+  //             name: user.displayName,
+  //             authProvider: "google",
+  //             email: user.email,
+  //             sessionId,
+  //           }).then((ref) => {
+  //             localStorage.setItem("docId", ref.id);
+  //           });
+  //         } else {
+  //           let sessionId = uuidv4();
+  //           localStorage.setItem("docId", docs.docs[0].id);
+  //           const docid = localStorage.getItem("docId");
+  //           if (!!docid) {
+  //             let docRef = doc(db, "users", docid);
+  //             updateDoc(docRef, {
+  //               sessionId: sessionId,
+  //             }).then(() => {
+  //               localStorage.setItem("sessionId", sessionId);
+  //             });
+  //           }
+  //         }
+  //       });
+  //       const searchdocRef = doc(db, "searches", user.uid);
+  //       getDoc(searchdocRef).then((searchesdocs) => {
+  //         if (searchesdocs.exists()) {
+  //           console.log(searchesdocs.data().searchedByUser);
+  //           setUserinfo({
+  //             ...userinfo,
+  //             displayName: user.displayName || "",
+  //             uid: user.uid,
+  //             searches: searchesdocs.data().searchedByUser,
+  //           });
+  //         } else {
+  //           setDoc(searchdocRef, { searchedByUser: [] });
+  //           setUserinfo({
+  //             ...userinfo,
+  //             displayName: user.displayName || "",
+  //             uid: user.uid,
+  //             searches: [],
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // }, []);
+
   useEffect(() => {
     let login = false;
     if (userinfo.uid.length > 0) login = true;
@@ -127,9 +196,9 @@ function Login({}: Props): ReactElement {
         userinfo: userinfo.displayName,
         userId: userinfo.uid,
         isLoggedIn: login,
+        searches: userinfo.searches,
       })
     );
-    // redirecting(userdetails);
   }, [userinfo]);
 
   useEffect(() => {
@@ -143,18 +212,27 @@ function Login({}: Props): ReactElement {
         );
         getDocs(q).then((data) => {
           if (data.docs.length > 0) {
-            dispatch(
-              currentLoggedInUser({
-                userinfo: data.docs[0].data().name,
-                userId: data.docs[0].data().uid,
-                isLoggedIn: true,
-              })
-            );
-
             getDoc(doc(db, "searches", data.docs[0].data().uid)).then(
               (search) => {
-                if (search.data())
-                  dispatch(searchesByUser(search.data()?.searchedByUser));
+                if (search.data()) {
+                  dispatch(
+                    currentLoggedInUser({
+                      userinfo: data.docs[0].data().name,
+                      userId: data.docs[0].data().uid,
+                      isLoggedIn: true,
+                      searches: search.data()?.searchedByUser,
+                    })
+                  );
+                } else {
+                  dispatch(
+                    currentLoggedInUser({
+                      userinfo: data.docs[0].data().name,
+                      userId: data.docs[0].data().uid,
+                      isLoggedIn: true,
+                      searches: [],
+                    })
+                  );
+                }
               }
             );
           }
@@ -163,10 +241,10 @@ function Login({}: Props): ReactElement {
     } catch (err) {
       alert(err);
     }
-    // redirecting(userdetails);
-    <Navigate to="/dashboard" replace={true} />;
   }, []);
-
+  useEffect(() => {
+    if (isLoggedin) navigate("/dashboard");
+  }, [isLoggedin]);
   console.log(userdetails);
 
   return (
@@ -187,41 +265,6 @@ function Login({}: Props): ReactElement {
                       </div>
                       <form className="flex justify-center flex-col">
                         <p className="mb-4">Please login to your account</p>
-                        {/* <div className="mb-4">
-                          <input
-                            type="text"
-                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            id="exampleFormControlInput1"
-                            placeholder="Userinfo"
-                          />
-                        </div> */}
-                        {/* <div className="mb-4">
-                          <input
-                            type="password"
-                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            id="exampleFormControlInput1"
-                            placeholder="Password"
-                          />
-                        </div> */}
-                        {/* <div className="text-center pt-1 mb-12 pb-1">
-                          <button
-                            className="inline-block px-6 py-2.5 text-black hover:text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
-                            type="button"
-                            data-mdb-ripple="true"
-                            data-mdb-ripple-color="light"
-                            style={{
-                              backgroundColor:
-                                "linear-gradient(to right,#ee7724,#d8363a,#dd3675, #b44593)",
-                            }}
-                          >
-                            Log in
-                          </button>
-                          <p className="flex justify-center decoration-4 font-bold">
-                            {" "}
-                            Or{" "}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between pb-6"></div> */}
                         <button
                           type="button"
                           className=" flex justify-center text-black bg-yellow-400 hover:bg-cyan-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center  mr-2 mb-2"
@@ -263,14 +306,11 @@ function Login({}: Props): ReactElement {
                   >
                     <div className="text-white px-4 py-6 md:p-12 md:mx-6">
                       <h4 className="text-xl font-semibold mb-6">
-                        We are more than just a company
+                        Github Search API
                       </h4>
                       <p className="text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis
-                        nostrud exercitation ullamco laboris nisi ut aliquip ex
-                        ea commodo consequat.
+                        Search For your Favourite Github users and see their
+                        Stats.
                       </p>
                     </div>
                   </div>
